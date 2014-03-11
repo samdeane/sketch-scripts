@@ -1,0 +1,9 @@
+// Example of executing a menu command - in this case moveToBack (cmd ctrl R)
+
+#import 'Elegant Chaos/elegantchaos.js'
+
+try {
+	com.elegantchaos.menuCommand('moveToBack:');
+} catch (e) {
+	log(e)
+}
