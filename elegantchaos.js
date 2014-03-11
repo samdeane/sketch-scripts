@@ -1,4 +1,4 @@
-var com = com || {};
+var com = {};
 
 com.elegantchaos = {
 	export: function(document, kind){
@@ -9,5 +9,13 @@ com.elegantchaos = {
 		var export_path = [export_url path]
 		var slice = [[[document currentPage] sliceContainer] layerAtIndex:0];
 		[document saveArtboardOrSlice:slice toFile:export_path];
+	},
+	menuCommand: function(commandToPerform) {
+		log('doodah')
+		try {
+			[NSApp sendAction:commandToPerform to:nil from:doc]
+		} catch(e) {
+			log(e)
 		}
+	}
 };
