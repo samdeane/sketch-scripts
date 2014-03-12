@@ -1,8 +1,12 @@
 var com = com || {};
 
 com.elegantchaos = (function() {
-	var my = {}, console = "blah";
-	var logWindow = null;
+	log("defined");
+
+	var my = {};
+	var persistent = [[NSThread mainThread] threadDictionary];
+	var logWindow = persistent["logWindow"];
+	var console = persistent["console"];
 
 	my.export = function(document, kind){
 		var file_url = [document fileURL];
@@ -31,32 +35,41 @@ com.elegantchaos = (function() {
 	};
 
 	my.makeLogWindow = function() {
-		var frame = NSMakeRect(0,0,512,256);
-		var window = [[NSWindow alloc] initWithContentRect:frame styleMask:1+2+8 backing:2 defer:true];
+		var frame = NSMakeRect(0,0,512,128);
+		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask;
+		var window = [[NSWindow alloc] initWithContentRect:frame styleMask:mask backing:NSBackingStoreBuffered defer:true];
 		window.title = "Console";
+		window.level = NSStatusWindowLevel;
 		var textField = [[NSTextField alloc] initWithFrame:[[window contentView] bounds]];
-		[textField setStringValue:"Testing"];
+		[textField setStringValue:"Test"];
 		[textField setBordered:NO];
-		[textField setEditable:YES];
+		[textField setEditable:NO];
 		[textField setDrawsBackground:YES];
-		[textField setAlignment:NSCenterTextAlignment];
+		[textField setAlignment:NSLeftTextAlignment];
 		[[window contentView] addSubview:textField];
 
 		[window setReleasedWhenClosed:NO];
 		[window makeKeyAndOrderFront:nil];
 
-		log("made new log window");
-
 		return window;
 	};
 
 	my.log = function(message) {
-		if (logWindow == null)
+		if (logWindow == null) {
 			logWindow = my.makeLogWindow();
+			persistent["logWindow"] = logWindow;
+		}
+
+		[logWindow makeKeyAndOrderFront:nil];
 
 		textField = [[logWindow contentView] subviews][0];
-		console = console + "\n" + message;
+		if (console == null)
+			console = "blah";
+
+		console = message + "\n" + console;
 		[textField setStringValue:console];
+		log(console);
+		persistent["console"] = console;
 	};
 
 	return my;
