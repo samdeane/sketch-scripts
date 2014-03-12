@@ -1,7 +1,7 @@
 var com = com || {};
 
 com.elegantchaos = (function() {
-	var my = {};
+	var my = {}, console = "blah";
 	var logWindow = null;
 
 	my.export = function(document, kind){
@@ -51,14 +51,12 @@ com.elegantchaos = (function() {
 	};
 
 	my.log = function(message) {
-		if (logWindow == null) {
-			logWindow = com.elegantchaos.makeLogWindow();
-		}
+		if (logWindow == null)
+			logWindow = my.makeLogWindow();
 
 		textField = [[logWindow contentView] subviews][0];
-		text = [textField stringValue];
-		text = text + "\n" + message;
-		[textField setStringValue:text];
+		console = console + "\n" + message;
+		[textField setStringValue:console];
 	};
 
 	return my;

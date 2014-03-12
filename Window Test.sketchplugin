@@ -1,0 +1,11 @@
+// Test for logging window stuff (cmd ctrl R)
+
+#import 'Elegant Chaos/elegantchaos.js'
+
+try {
+	com.elegantchaos.log("Test Log Message");
+	com.elegantchaos.log("Another Log Message");
+
+} catch (e) {
+	log(e)
+}
