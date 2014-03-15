@@ -4,20 +4,15 @@
 
 function logMenu(menu) {
 	var count = [menu numberOfItems];
-	log(count);
 	for (var n = 0; n < count; ++n) {
 		var item = [menu itemAtIndex:n];
 		if (![item isSeparatorItem]) {
-			log("b");
 			log([item class]);
 			if ([item hasSubmenu]) {
 				logMenu([item submenu]);
 			} else {
-				log("c");
 				var action = NSStringFromSelector([item action]);
-				log(action);
 				if (action) {
-					log("d");
 					com.elegantchaos.log([item title] + " -> " + action);
 				}
 			}
