@@ -32,7 +32,7 @@ com.elegantchaos = (function() {
 	};
 
 	my.persistentWindow = function(title, persistName, level, setup) {
-		window = persistent[persistName];
+		var window = persistent[persistName];
 		if (window == null) {
 			window = my.makeWindow(title, persistName, level, setup);
 			persistent[persistName] = window;
@@ -59,14 +59,27 @@ com.elegantchaos = (function() {
 
 	my.logWindow = function() {
 		var window = my.persistentWindow("Console", "LogWindow", NSStatusWindowLevel, function(window) {
-			var textField = [[NSTextField alloc] initWithFrame:[[window contentView] bounds]];
-			[textField setAutoresizingMask:NSViewWidthSizable + NSViewHeightSizable];
-			[textField setStringValue:"Test"];
-			[textField setBordered:NO];
-			[textField setEditable:NO];
-			[textField setDrawsBackground:YES];
-			[textField setAlignment:NSLeftTextAlignment];
-			[[window contentView] addSubview:textField];
+			var scrollview = [[NSScrollView alloc] initWithFrame:[[window contentView] frame]];
+			var contentSize = [scrollview contentSize];
+
+			[scrollview setBorderType:NSNoBorder];
+			[scrollview setHasVerticalScroller:YES];
+			[scrollview setHasHorizontalScroller:YES];
+			[scrollview setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+			var FLT_MAX = 3.40282347e+38;
+			var view = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, contentSize.width, contentSize.height)];
+			[view setMinSize:NSMakeSize(0.0, contentSize.height)];
+			[view setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+			[view setVerticallyResizable:YES];
+			[view setHorizontallyResizable:YES];
+			[view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+			[[view textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+			[[view textContainer] setWidthTracksTextView:NO];
+
+			[scrollview setDocumentView:view];
+			[window setContentView:scrollview];
+			[window makeFirstResponder:view];
 		});
 
 		return window;
@@ -76,12 +89,12 @@ com.elegantchaos = (function() {
 		var logWindow = my.logWindow();
 		[logWindow makeKeyAndOrderFront:nil];
 
-		textField = [[logWindow contentView] subviews][0];
+		textField = [[logWindow contentView] documentView];
 		if (console == null)
 			console = "blah";
 
 		console = message + "\n" + console;
-		[textField setStringValue:console];
+		[textField setString:console];
 		log(console);
 		persistent["console"] = console;
 	};
