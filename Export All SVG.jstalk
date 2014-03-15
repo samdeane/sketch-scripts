@@ -2,7 +2,7 @@
 
 var docs = [[NSDocumentController sharedDocumentController] documents];
 var count = [docs count];
-for (var n = 0; n < count; n++) 
+for (var n = 0; n < count; n++)
 {
 	com.elegantchaos.export([docs objectAtIndex:n], "svg");
 }

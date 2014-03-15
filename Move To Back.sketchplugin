@@ -1,6 +1,6 @@
 // Example of executing a menu command - in this case moveToBack
 
-#import 'Elegant Chaos/elegantchaos.js'
+#import 'elegantchaos.js'
 
 try {
 	com.elegantchaos.sendAction('moveToBack:');
