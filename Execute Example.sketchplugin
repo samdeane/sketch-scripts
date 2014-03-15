@@ -1,5 +1,7 @@
 // --------------------------------------------------------------------------
-// An example of how to use the logging window in the elegantchaos.com library.
+// An example of how to use the execute function in the elegantchaos library.
+// Pass this function something to execute, and it'll do so inside a try block
+// and log any errors.
 //
 //  Copyright 2014 Sam Deane, Elegant Chaos. All rights reserved.
 //  This source code is distributed under the terms of Elegant Chaos's
@@ -9,20 +11,9 @@
 #import 'elegantchaos.js'
 
 com.elegantchaos.execute(function() {
-	// some examples of logging different kinds of things
+    com.elegantchaos.log("I'm about to call a function that doesn't exist.");
 
-	com.elegantchaos.log("Test Log Message");
+    thisFunctionDoesntExist("blah");
 
-	var s = "Another Log message";
-	com.elegantchaos.log(s);
-
-	var n = 1.2345;
-	com.elegantchaos.log(n);
-
-	var b = 1 == 2;
-	com.elegantchaos.log(b);
-
-	com.elegantchaos.log(function(){});
-
-	com.elegantchaos.log("That's all folks...");
+    com.elegantchaos.log("You won't see this, because the previous line caused an error, which should have been logged.");
 });

@@ -1,8 +1,18 @@
+// --------------------------------------------------------------------------
+// Export the first slice from the first page of every open document as an SVG file.
+//
+//  Copyright 2014 Sam Deane, Elegant Chaos. All rights reserved.
+//  This source code is distributed under the terms of Elegant Chaos's
+//  liberal license: http://www.elegantchaos.com/license/liberal
+// --------------------------------------------------------------------------
+
 #import 'elegantchaos.js'
 
-var docs = [[NSDocumentController sharedDocumentController] documents];
-var count = [docs count];
-for (var n = 0; n < count; n++)
-{
-	com.elegantchaos.export([docs objectAtIndex:n], "svg");
-}
+com.elegantchaos.execute( function() {
+	var docs = [[NSDocumentController sharedDocumentController] documents];
+	var count = [docs count];
+	for (var n = 0; n < count; n++)
+	{
+		com.elegantchaos.export(docs[n], "svg");
+	}
+});

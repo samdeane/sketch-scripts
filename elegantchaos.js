@@ -1,3 +1,11 @@
+// --------------------------------------------------------------------------
+// Miscellaneous Sketch utilities.
+//
+//  Copyright 2014 Sam Deane, Elegant Chaos. All rights reserved.
+//  This source code is distributed under the terms of Elegant Chaos's
+//  liberal license: http://www.elegantchaos.com/license/liberal
+// --------------------------------------------------------------------------
+
 var com = com || {};
 
 com.elegantchaos = (function() {
@@ -5,21 +13,38 @@ com.elegantchaos = (function() {
 	var persistent = [[NSThread mainThread] threadDictionary];
 	var console = persistent["console"];
 
+	my.execute = function(block) {
+		try
+		{
+			block();
+		}
+		catch (e)
+		{
+			my.log(e);
+		}
+	}
+
 	my.export = function(document, kind){
-		var file_url = [document fileURL];
-		var file_name = [[file_url URLByDeletingPathExtension] lastPathComponent];
-		var export_folder = [[[file_url URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:"Exported"]
-		var export_url = [[export_folder URLByAppendingPathComponent:file_name] URLByAppendingPathExtension:kind];
-		var export_path = [export_url path]
-		var slice = [[[document currentPage] sliceContainer] layerAtIndex:0];
-		[document saveArtboardOrSlice:slice toFile:export_path];
+		var slices = [[document currentPage] allSlices];
+		if ([slices count] > 0) {
+			var slice = slices[0];
+			var file_url = [document fileURL];
+			var file_name = [[file_url URLByDeletingPathExtension] lastPathComponent];
+			var export_folder = [[[file_url URLByDeletingLastPathComponent] URLByDeletingLastPathComponent] URLByAppendingPathComponent:"Exported"]
+			var export_url = [[export_folder URLByAppendingPathComponent:file_name] URLByAppendingPathExtension:kind];
+			var export_path = [export_url path];
+			[document saveArtboardOrSlice:slice toFile:export_path];
+			my.log("Exported " + export_path);
+		} else {
+			my.log("No slices");
+		}
 	};
 
 	my.sendAction = function(commandToPerform) {
 		try {
 			[NSApp sendAction:commandToPerform to:nil from:doc]
 		} catch(e) {
-			log(e)
+			my.log(e)
 		}
 	};
 

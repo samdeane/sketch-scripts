@@ -2,8 +2,6 @@
 
 #import 'elegantchaos.js'
 
-try {
+com.elegantchaos.execute(function() {
 	com.elegantchaos.sendAction('moveToBack:');
-} catch (e) {
-	log(e)
-}
+});
