@@ -89,14 +89,18 @@ com.elegantchaos = (function() {
 		var logWindow = my.logWindow();
 		[logWindow makeKeyAndOrderFront:nil];
 
-		textField = [[logWindow contentView] documentView];
+		view = [[logWindow contentView] documentView];
 		if (console == null)
 			console = "blah";
 
-		console = message + "\n" + console;
-		[textField setString:console];
-		log(console);
+		var now = new Date();
+		var time = now.toLocaleTimeString().split(" ")[0];
+		console = console + time + " " + message + "\n";
+		[view setString:console];
+		log(message);
 		persistent["console"] = console;
+		[view scrollRangeToVisible: NSMakeRange(view.string.length, 0)];
+
 	};
 
 	return my;
