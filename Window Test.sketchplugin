@@ -1,6 +1,6 @@
 // Test for logging window stuff (cmd ctrl R)
 
-#import 'Elegant Chaos/elegantchaos.js'
+#import 'elegantchaos.js'
 
 try {
 	com.elegantchaos.log("Test Log Message");
