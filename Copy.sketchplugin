@@ -1,4 +1,4 @@
-// Example of executing a menu command - in this case moveToBack
+// Example of executing a menu command - in this case "Copy"
 
 #import 'elegantchaos.js'
 
