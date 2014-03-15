@@ -1,0 +1,7 @@
+// Example of executing a menu command - in this case moveToBack
+
+#import 'elegantchaos.js'
+
+com.elegantchaos.execute(function() {
+	com.elegantchaos.sendAction('copy:');
+});
