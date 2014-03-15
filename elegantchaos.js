@@ -89,15 +89,18 @@ com.elegantchaos = (function() {
 		var logWindow = my.logWindow();
 		[logWindow makeKeyAndOrderFront:nil];
 
+		var text = message;
+		//var text = JSON.stringify(message);
+
 		view = [[logWindow contentView] documentView];
 		if (console == null)
-			console = "blah";
+			console = "";
 
 		var now = new Date();
 		var time = now.toLocaleTimeString().split(" ")[0];
-		console = console + time + " " + message + "\n";
+		console = console + time + " " + text + "\n";
 		[view setString:console];
-		log(message);
+		log(text);
 		persistent["console"] = console;
 		[view scrollRangeToVisible: NSMakeRange(view.string.length, 0)];
 

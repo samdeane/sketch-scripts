@@ -1,0 +1,29 @@
+// List out all the selectors for all menu items.
+
+#import 'elegantchaos.js'
+
+function logMenu(menu) {
+	var count = [menu numberOfItems];
+	for (var n = 0; n < count; ++n) {
+		var item = [menu itemAtIndex:n];
+		if (![item isSeparatorItem]) {
+			var action = [item action];
+			if (action != null) {
+				com.elegantchaos.log([item title]);
+				com.elegantchaos.log(action);
+			}
+
+			if ([item hasSubmenu]) {
+				log([item submenu]);
+				logMenu([item submenu]);
+			}
+		}
+	}
+}
+
+try {
+	var menu = [[NSApplication sharedApplication] mainMenu];
+	logMenu(menu);
+} catch (e) {
+	log(e)
+}
