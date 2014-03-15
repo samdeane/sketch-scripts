@@ -58,8 +58,9 @@ com.elegantchaos = (function() {
 	}
 
 	my.logWindow = function() {
-		var window = my.persistentWindow("Console", "ConsoleWindow", NSStatusWindowLevel, function(window) {
+		var window = my.persistentWindow("Console", "LogWindow", NSStatusWindowLevel, function(window) {
 			var textField = [[NSTextField alloc] initWithFrame:[[window contentView] bounds]];
+			[textField setAutoresizingMask:NSViewWidthSizable + NSViewHeightSizable];
 			[textField setStringValue:"Test"];
 			[textField setBordered:NO];
 			[textField setEditable:NO];
