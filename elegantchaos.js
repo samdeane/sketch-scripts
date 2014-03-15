@@ -1,11 +1,8 @@
 var com = com || {};
 
 com.elegantchaos = (function() {
-	log("defined");
-
 	var my = {};
 	var persistent = [[NSThread mainThread] threadDictionary];
-	var logWindow = persistent["logWindow"];
 	var console = persistent["console"];
 
 	my.export = function(document, kind){
@@ -34,32 +31,48 @@ com.elegantchaos = (function() {
 		return selection;
 	};
 
-	my.makeLogWindow = function() {
+	my.persistentWindow = function(title, persistName, level, setup) {
+		window = persistent[persistName];
+		if (window == null) {
+			window = my.makeWindow(title, persistName, level, setup);
+			persistent[persistName] = window;
+		}
+
+		return window;
+	}
+
+	my.makeWindow = function(title, autosave, level, setup) {
 		var frame = NSMakeRect(0,0,512,128);
 		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask;
 		var window = [[NSWindow alloc] initWithContentRect:frame styleMask:mask backing:NSBackingStoreBuffered defer:true];
-		window.title = "Console";
-		window.level = NSStatusWindowLevel;
-		var textField = [[NSTextField alloc] initWithFrame:[[window contentView] bounds]];
-		[textField setStringValue:"Test"];
-		[textField setBordered:NO];
-		[textField setEditable:NO];
-		[textField setDrawsBackground:YES];
-		[textField setAlignment:NSLeftTextAlignment];
-		[[window contentView] addSubview:textField];
+		window.title = title;
+		window.level = level;
+		[window setFrameAutosaveName:autosave];
+
+		setup(window);
 
 		[window setReleasedWhenClosed:NO];
 		[window makeKeyAndOrderFront:nil];
 
 		return window;
+	}
+
+	my.logWindow = function() {
+		var window = my.persistentWindow("Console", "ConsoleWindow", NSStatusWindowLevel, function(window) {
+			var textField = [[NSTextField alloc] initWithFrame:[[window contentView] bounds]];
+			[textField setStringValue:"Test"];
+			[textField setBordered:NO];
+			[textField setEditable:NO];
+			[textField setDrawsBackground:YES];
+			[textField setAlignment:NSLeftTextAlignment];
+			[[window contentView] addSubview:textField];
+		});
+
+		return window;
 	};
 
 	my.log = function(message) {
-		if (logWindow == null) {
-			logWindow = my.makeLogWindow();
-			persistent["logWindow"] = logWindow;
-		}
-
+		var logWindow = my.logWindow();
 		[logWindow makeKeyAndOrderFront:nil];
 
 		textField = [[logWindow contentView] subviews][0];
