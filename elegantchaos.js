@@ -41,6 +41,16 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	my.persistentPanel = function(title, persistName, setup) {
+		var window = persistent[persistName];
+		if (window == null) {
+			window = my.makePanel(title, persistName, setup);
+			persistent[persistName] = window;
+		}
+
+		return window;
+	}
+
 	my.makeWindow = function(title, autosave, level, setup) {
 		var frame = NSMakeRect(0,0,512,128);
 		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask;
@@ -57,8 +67,24 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	my.makePanel = function(title, autosave, setup) {
+		var frame = NSMakeRect(0,0,512,128);
+		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask + NSUtilityWindowMask;
+		var window = [[NSPanel alloc] initWithContentRect:frame styleMask:mask backing:NSBackingStoreBuffered defer:true];
+		window.title = title;
+		window.floatingPanel = YES;
+		[window setFrameAutosaveName:autosave];
+
+		setup(window);
+
+		[window setReleasedWhenClosed:NO];
+		[window makeKeyAndOrderFront:nil];
+
+		return window;
+	}
+
 	my.logWindow = function() {
-		var window = my.persistentWindow("Console", "LogWindow", NSStatusWindowLevel, function(window) {
+		var window = my.persistentPanel("Console", "LogWindow", function(window) {
 			var scrollview = [[NSScrollView alloc] initWithFrame:[[window contentView] frame]];
 			var contentSize = [scrollview contentSize];
 
