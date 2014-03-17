@@ -10,9 +10,17 @@ var com = com || {};
 
 com.elegantchaos = (function() {
 	var my = {};
+
+	// it's helpful to have somewhere to store values in a way that will persist across invocations of
+	// the script, so you can store something on one run, and pick it up again on the next
+	// as luck would have it, there's a dictionary associated with each thread, so we can use the main thread's
+	// dictionary to keep out persistent values in
 	var persistent = [[NSThread mainThread] threadDictionary];
+
+	// an example of something we might want to persist is the contents of the console
 	var console = persistent["console"];
 
+	// perform a come code inside a try/catch block, and log out the error if something goes wrong
 	my.execute = function(block) {
 		try
 		{
@@ -24,6 +32,7 @@ com.elegantchaos = (function() {
 		}
 	}
 
+	// export the first slice from a doc, as a given kind
 	my.export = function(document, kind){
 		var slices = [[document currentPage] allSlices];
 		if ([slices count] > 0) {
@@ -40,6 +49,10 @@ com.elegantchaos = (function() {
 		}
 	};
 
+	// perform an action (in the way that a menu or button typically does)
+	// what we're doing here is sending a command (an Objective-C method call)
+	// down a chain of objects (the current window,
+	// the current document, the application, etc) until one responds
 	my.sendAction = function(commandToPerform) {
 		try {
 			[NSApp sendAction:commandToPerform to:nil from:doc]
@@ -48,7 +61,10 @@ com.elegantchaos = (function() {
 		}
 	};
 
+	// safe implementation of selection, which checks for it being nil
+	// (which it can be before the user first selected anything)
 	my.selection = function() {
+		var selection = doc.selectedLayers();
 		if (selection == null) {
 			selection = [[NSArray alloc] init]
 		}
@@ -56,6 +72,9 @@ com.elegantchaos = (function() {
 		return selection;
 	};
 
+	// return a persistent window
+	// this will make the window the first time it's called, but return the
+	// same window next time (even if the next time is during a later execution of the script)
 	my.persistentWindow = function(title, persistName, level, setup) {
 		var window = persistent[persistName];
 		if (window == null) {
@@ -66,6 +85,9 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	// return a persistent panel
+	// this will make the window the first time it's called, but return the
+	// same window next time (even if the next time is during a later execution of the script)
 	my.persistentPanel = function(title, persistName, setup) {
 		var window = persistent[persistName];
 		if (window == null) {
@@ -76,6 +98,9 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	// make a new window
+	// this uses native Cocoa code to create a new window object, and set up various properties on it
+	// for more details on NSWindow, see https://developer.apple.com/library/mac/documentation/cocoa/reference/applicationkit/classes/NSWindow_Class/Reference/Reference.html
 	my.makeWindow = function(title, autosave, level, setup) {
 		var frame = NSMakeRect(0,0,512,128);
 		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask;
@@ -92,6 +117,9 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	// make a new panel
+	// this uses native Cocoa code to create a new panel object, and set up various properties on it
+	// for more details on NSPanel, see https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSPanel_Class/Reference/Reference.html
 	my.makePanel = function(title, autosave, setup) {
 		var frame = NSMakeRect(0,0,512,128);
 		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask + NSUtilityWindowMask;
@@ -108,6 +136,11 @@ com.elegantchaos = (function() {
 		return window;
 	}
 
+	// make a new log window
+	// we use Cocoa here to create a native window, and then we create a scrollview+textview combination
+	// as the context, which gives us a scrolling text field
+	// as luck would have it, Apple have some documentation describing this process:
+	// https://developer.apple.com/library/mac/documentation/cocoa/conceptual/TextUILayer/Tasks/TextInScrollView.html#//apple_ref/doc/uid/20000938-CJBBIAAF
 	my.logWindow = function() {
 		var window = my.persistentPanel("Console", "LogWindow", function(window) {
 			var scrollview = [[NSScrollView alloc] initWithFrame:[[window contentView] frame]];
@@ -136,6 +169,9 @@ com.elegantchaos = (function() {
 		return window;
 	};
 
+	// log something to our console window
+	// we set the window up first if necessary, then
+	// append the log message to the bottom of it and scroll the new line into view
 	my.log = function(message) {
 		var logWindow = my.logWindow();
 		[logWindow makeKeyAndOrderFront:nil];
