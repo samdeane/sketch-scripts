@@ -4,4 +4,5 @@
 
 com.elegantchaos.execute(function() {
 	com.elegantchaos.sendAction('paste:');
+	com.elegantchaos.log(doc.selectedLayers());
 });
