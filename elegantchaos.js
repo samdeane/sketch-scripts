@@ -111,7 +111,7 @@ com.elegantchaos = (function() {
 
 		setup(window);
 
-		[window setReleasedWhenClosed:NO];
+		[window setReleasedWhenClosed:false];
 		[window makeKeyAndOrderFront:nil];
 
 		return window;
@@ -125,12 +125,12 @@ com.elegantchaos = (function() {
 		var mask = NSTitledWindowMask + NSClosableWindowMask + NSMiniaturizableWindowMask + NSResizableWindowMask + NSUtilityWindowMask;
 		var window = [[NSPanel alloc] initWithContentRect:frame styleMask:mask backing:NSBackingStoreBuffered defer:true];
 		window.title = title;
-		window.floatingPanel = YES;
+		window.floatingPanel = true;
 		[window setFrameAutosaveName:autosave];
 
 		setup(window);
 
-		[window setReleasedWhenClosed:NO];
+		[window setReleasedWhenClosed:false];
 		[window makeKeyAndOrderFront:nil];
 
 		return window;
@@ -147,19 +147,19 @@ com.elegantchaos = (function() {
 			var contentSize = [scrollview contentSize];
 
 			[scrollview setBorderType:NSNoBorder];
-			[scrollview setHasVerticalScroller:YES];
-			[scrollview setHasHorizontalScroller:YES];
+			[scrollview setHasVerticalScroller:true];
+			[scrollview setHasHorizontalScroller:true];
 			[scrollview setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
 			var FLT_MAX = 3.40282347e+38;
 			var view = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, contentSize.width, contentSize.height)];
 			[view setMinSize:NSMakeSize(0.0, contentSize.height)];
 			[view setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-			[view setVerticallyResizable:YES];
-			[view setHorizontallyResizable:YES];
+			[view setVerticallyResizable:true];
+			[view setHorizontallyResizable:true];
 			[view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 			[[view textContainer] setContainerSize:NSMakeSize(FLT_MAX, FLT_MAX)];
-			[[view textContainer] setWidthTracksTextView:NO];
+			[[view textContainer] setWidthTracksTextView:false];
 
 			[scrollview setDocumentView:view];
 			[window setContentView:scrollview];
