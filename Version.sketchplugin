@@ -15,4 +15,7 @@ com.elegantchaos.execute(function() {
   com.elegantchaos.log("Minor: " + com.elegantchaos.minorVersion());
   com.elegantchaos.log("Fix: " + com.elegantchaos.fixVersion());
   com.elegantchaos.log("Build: " + com.elegantchaos.buildNumber());
+
+  if (com.elegantchaos.majorVersion() > 2)
+    com.elegantchaos.log("Woot - we're running in Sketch 3.0+");
 });
