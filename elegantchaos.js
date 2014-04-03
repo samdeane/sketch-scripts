@@ -58,6 +58,39 @@ com.elegantchaos = (function() {
 		return result;
 	}
 
+	// return the Sketch version number, split into three components
+	// (we fish this out of the main info dictionary for the application)
+	my.versionComponents = function() {
+		var info = [[NSBundle mainBundle] infoDictionary];
+		var items = [(info["CFBundleShortVersionString"]) componentsSeparatedByString:"."];
+
+		while(items.length() < 3)
+			items.push("0");
+
+		return items;
+	}
+
+	// return the main Sketch version number (eg 2 in 2.4.3)
+	my.majorVersion = function() {
+		var items = my.versionComponents();
+
+		return items[0];
+	}
+
+	// return the minor Sketch version number (eg 4 in 2.4.3)
+	my.minorVersion = function() {
+		var items = my.versionComponents();
+
+		return items[1];
+	}
+
+	// return the fix Sketch version number (eg 3 in 2.4.3)
+	my.fixVersion = function() {
+		var items = my.versionComponents();
+
+		return items[2];
+	}
+
 	// return the exact Sketch build number
   // (we fish this out of the main info dictionary for the application)
 	my.buildNumber = function() {
