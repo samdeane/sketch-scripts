@@ -1,7 +1,6 @@
 // --------------------------------------------------------------------------
-// List out all the selectors for all menu items.
-// Unfortunately, this script crashes JSTalk in Sketch 2.4.3.
-// A new version of Sketch will fix this problem...
+//  Check the major version number and build number for Sketch.
+//  Useful if your script only runs with certain versions.
 //
 //  Copyright 2014 Sam Deane, Elegant Chaos. All rights reserved.
 //  This source code is distributed under the terms of Elegant Chaos's

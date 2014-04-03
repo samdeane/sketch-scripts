@@ -50,6 +50,7 @@ com.elegantchaos = (function() {
 	};
 
 	// return the Sketch version number
+	// (we fish this out of the main info dictionary for the application)
 	my.shortVersion = function() {
 		var info = [[NSBundle mainBundle] infoDictionary];
 		var result = info["CFBundleShortVersionString"];
@@ -58,7 +59,8 @@ com.elegantchaos = (function() {
 	}
 
 	// return the exact Sketch build number
-  my.buildNumber = function() {
+  // (we fish this out of the main info dictionary for the application)
+	my.buildNumber = function() {
 		var info = [[NSBundle mainBundle] infoDictionary];
 		var result = info["CFBundleVersion"];
 
