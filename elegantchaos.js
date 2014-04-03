@@ -51,9 +51,12 @@ com.elegantchaos = (function() {
 
 	// return the Sketch version number
 	// (we fish this out of the main info dictionary for the application)
-	my.shortVersion = function() {
-		var info = [[NSBundle mainBundle] infoDictionary];
-		var result = info["CFBundleShortVersionString"];
+	my.version = function() {
+		var items = my.versionComponents();
+
+		var result = items[0] + "." + items[1];
+		if (items[2] != 0)
+			result += "." + items[2];
 
 		return result;
 	}

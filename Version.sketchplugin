@@ -10,7 +10,7 @@
 #import 'elegantchaos.js'
 
 com.elegantchaos.execute(function() {
-  com.elegantchaos.log("Version: " + com.elegantchaos.shortVersion());
+  com.elegantchaos.log("Version: " + com.elegantchaos.version());
   com.elegantchaos.log("Major: " + com.elegantchaos.majorVersion());
   com.elegantchaos.log("Minor: " + com.elegantchaos.minorVersion());
   com.elegantchaos.log("Fix: " + com.elegantchaos.fixVersion());
