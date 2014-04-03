@@ -49,6 +49,22 @@ com.elegantchaos = (function() {
 		}
 	};
 
+	// return the Sketch version number
+	my.shortVersion = function() {
+		var info = [[NSBundle mainBundle] infoDictionary];
+		var result = info["CFBundleShortVersionString"];
+
+		return result;
+	}
+
+	// return the exact Sketch build number
+  my.buildNumber = function() {
+		var info = [[NSBundle mainBundle] infoDictionary];
+		var result = info["CFBundleVersion"];
+
+		return result;
+	}
+
 	// perform an action (in the way that a menu or button typically does)
 	// what we're doing here is sending a command (an Objective-C method call)
 	// down a chain of objects (the current window,
