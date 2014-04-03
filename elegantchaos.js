@@ -62,10 +62,10 @@ com.elegantchaos = (function() {
 	// (we fish this out of the main info dictionary for the application)
 	my.versionComponents = function() {
 		var info = [[NSBundle mainBundle] infoDictionary];
-		var items = [(info["CFBundleShortVersionString"]) componentsSeparatedByString:"."];
+		var items = [[(info["CFBundleShortVersionString"]) componentsSeparatedByString:"."] mutableCopy];
 
 		while(items.length() < 3)
-			items.push("0");
+			[items addObject:"0"];
 
 		return items;
 	}
