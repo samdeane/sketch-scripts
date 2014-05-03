@@ -34,7 +34,7 @@ com.elegantchaos = (function() {
 
 	// export the first slice from a doc, as a given kind
 	my.export = function(document, kind){
-		var slices = [[document currentPage] allSlices];
+		var slices = [[document currentPage] exportableLayers];
 		if ([slices count] > 0) {
 			var slice = slices[0];
 			var file_url = [document fileURL];
