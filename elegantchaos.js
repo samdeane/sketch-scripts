@@ -249,16 +249,17 @@ com.elegantchaos = (function() {
 
 	my.launch = function(cmd, arguments) {
 	    var task = [[NSTask alloc] init];
-	    task.launchPath = cmd;
+	    [task setLaunchPath:cmd];
+
+		if (arguments)
+			[task setArguments:arguments];
   
 	    var pipe = [NSPipe pipe];
 	    [task setStandardOutput: pipe];
   
 	    var file = [pipe fileHandleForReading];
-  
+		
 	    [task launch];
-  
-	    log("blah");
 
 	    var data = [file readDataToEndOfFile];
 	    var output = [[NSString alloc] initWithData: data encoding:NSUTF8StringEncoding];
