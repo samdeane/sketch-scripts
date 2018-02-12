@@ -1,4 +1,4 @@
-**Update: The contents of this repo is out of date. 
+**Update: The contents of this repo is out of date.**
 
 For up to date Sketch scripting informatio, check out http://developer.sketchapp.com and http://skpm.io.
 
