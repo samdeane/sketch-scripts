@@ -1,3 +1,11 @@
+**Update: The contents of this repo is out of date. 
+
+For up to date Sketch scripting informatio, check out http://developer.sketchapp.com and http://skpm.io.
+
+I worked on Sketch between 2012 and the end of 2017, but I'm now back as an indie developer at [Elegant Chaos](http://elegantchaos.com). If you need some Sketch plugin consultancy or contracting, I may be able to help you out.
+
+------
+
 ## About
 
 I started this repo when I was doing a little bit of contracting on Sketch, and wanted to experiment with the scripting capabilities.
